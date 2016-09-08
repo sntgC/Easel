@@ -110,7 +110,7 @@ public class HelloWorld {
     }
     
     private void update(){
-        camera.moveCamera(1, 2);
+        camera.moveCamera(5, 3);
     }
 
     public static void main(String[] args) {

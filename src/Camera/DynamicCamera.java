@@ -14,16 +14,16 @@ import java.util.Arrays;
  * @author sntgc
  */
 public class DynamicCamera {
-    private short[] sectorCoords;
+    private int[] sectorCoords;
     private long[] globalCoords;
     private Sector[] sectors;
     private World world;
-    private short[] xyMax;
+    private int[] xyMax;
     public DynamicCamera(World map){
-        sectorCoords=new short[] {0,0};
+        sectorCoords=new int[] {0,0};
         globalCoords=new long[] {0,0};
         sectors=new Sector[5];
-        xyMax=new short[] {800,600};
+        xyMax=new int[] {800,400};
         world=map;
         getNeighbors();
     }
@@ -32,23 +32,27 @@ public class DynamicCamera {
         if(sectorCoords[0]+xShift<xyMax[0]&&sectorCoords[0]+xShift>(-xyMax[0]))
             sectorCoords[0]+=xShift;
         else if(sectorCoords[0]+xShift>=xyMax[0]){
-            sectorCoords[0]=0;
-            globalCoords[0]++;
+            sectorCoords[0]=-xyMax[0]+1;
+            globalCoords[0]--;
+            globalCoords[1]--;
             getNeighbors();
         }else{
             sectorCoords[0]=799;
-            globalCoords[0]--;
-            getNeighbors();
-        }
-        if(sectorCoords[1]+yShift<xyMax[0]&&sectorCoords[0]+yShift>(-xyMax[0]))
-            sectorCoords[1]+=yShift;
-        else if(sectorCoords[1]+yShift>=xyMax[0]){
-            sectorCoords[1]=0;
+            globalCoords[0]++;
             globalCoords[1]++;
             getNeighbors();
-        }else{
-            sectorCoords[1]=599;
+        }
+        if(sectorCoords[1]+yShift<xyMax[1]&&sectorCoords[1]+yShift>(-xyMax[1]))
+            sectorCoords[1]+=yShift;
+        else if(sectorCoords[1]+yShift>=xyMax[1]){
+            sectorCoords[1]=-xyMax[1]+1;
+            globalCoords[0]++;
             globalCoords[1]--;
+            getNeighbors();
+        }else{
+            sectorCoords[1]=399;
+            globalCoords[1]--;
+            globalCoords[1]++;
             getNeighbors();
         }
     }
@@ -64,6 +68,8 @@ public class DynamicCamera {
                 }
             }
         }
+        
+        System.out.println(Arrays.toString(sectors));
     }
     
     public void render(){
