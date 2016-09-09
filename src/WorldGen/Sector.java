@@ -29,7 +29,7 @@ public class Sector {
         Color bColor=bugTestRender()? Color.BLACK:Color.WHITE;//new Color(0,0,aColor.getBlue()/2);
         for(int r=0;r<tiles.length;r++){
             for(int c=0;c<tiles[r].length;c++){
-                tiles[r][c]=new Tile(rIndex,cIndex,tileWidth,(r+c)%2==0? aColor:bColor);//new Color(0,0,(r+c)%2==0? 255:155));//(r+c)%2==0? aColor:bColor);
+                tiles[r][c]=new Tile(rIndex,cIndex,tileWidth,((r+c)%2==(bugTestRender()? 0:1))? aColor:bColor);//new Color(0,0,(r+c)%2==0? 255:155));//(r+c)%2==0? aColor:bColor);
                 rIndex+=tileWidth/2;
                 cIndex+=tileWidth/4;
             }

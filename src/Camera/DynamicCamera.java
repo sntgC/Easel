@@ -22,7 +22,7 @@ public class DynamicCamera {
     public DynamicCamera(World map){
         sectorCoords=new int[] {0,0};
         globalCoords=new long[] {0,0};
-        sectors=new Sector[5];
+        sectors=new Sector[9];
         xyMax=new int[] {800,400};
         world=map;
         getNeighbors();
@@ -51,7 +51,7 @@ public class DynamicCamera {
             getNeighbors();
         }else{
             sectorCoords[1]=399;
-            globalCoords[1]--;
+            globalCoords[0]--;
             globalCoords[1]++;
             getNeighbors();
         }
@@ -61,11 +61,11 @@ public class DynamicCamera {
         int index=0;
         for(int x=-1;x<=1;x++){
             for(int y=-1;y<=1;y++){
-                if(Math.abs(x)+Math.abs(y)<=1){
+                //if(Math.abs(x)+Math.abs(y)<=1){
                     long xCoord=globalCoords[0]+x;
                     long yCoord=globalCoords[1]+y;
                     sectors[index++]=world.requestSector(xCoord+","+yCoord);
-                }
+                //}
             }
         }
         
@@ -73,10 +73,14 @@ public class DynamicCamera {
     }
     
     public void render(){
-        sectors[0].render(sectorCoords[0]-800,sectorCoords[1]+400);
-        sectors[1].render(sectorCoords[0]-800,sectorCoords[1]-400);
-        sectors[2].render(sectorCoords[0],sectorCoords[1]);
-        sectors[3].render(sectorCoords[0]+800,sectorCoords[1]+400);
-        sectors[4].render(sectorCoords[0]+800,sectorCoords[1]-400);
+        sectors[0].render(sectorCoords[0]-1600,sectorCoords[1]);
+        sectors[1].render(sectorCoords[0]-800,sectorCoords[1]+400);
+        sectors[2].render(sectorCoords[0],sectorCoords[1]+800);
+        sectors[3].render(sectorCoords[0]-800,sectorCoords[1]-400);
+        sectors[4].render(sectorCoords[0],sectorCoords[1]);
+        sectors[5].render(sectorCoords[0]+800,sectorCoords[1]+400);
+        sectors[6].render(sectorCoords[0],sectorCoords[1]-800);
+        sectors[7].render(sectorCoords[0]+800,sectorCoords[1]-400);
+        sectors[8].render(sectorCoords[0]+1600,sectorCoords[1]);
     }
 }
