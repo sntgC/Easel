@@ -94,7 +94,7 @@ public class HelloWorld {
         glClearColor(0.2f, 0.3f, 0.7f, 0.0f);
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
-        World myWorld=new World(160);
+        World myWorld=new World(32,32);
         camera=new DynamicCamera(myWorld);
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer

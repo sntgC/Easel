@@ -19,12 +19,14 @@ public class DynamicCamera {
     private Sector[] sectors;
     private World world;
     private int[] xyMax;
+    private int[] sectorData;
     public DynamicCamera(World map){
         sectorCoords=new int[] {0,0};
         globalCoords=new long[] {0,0};
         sectors=new Sector[9];
-        xyMax=new int[] {800,400};
         world=map;
+        sectorData=map.getSectorData();
+        xyMax=new int[] {sectorData[2]/2,sectorData[2]/4};
         getNeighbors();
     }
     
@@ -37,7 +39,7 @@ public class DynamicCamera {
             globalCoords[1]--;
             getNeighbors();
         }else{
-            sectorCoords[0]=799;
+            sectorCoords[0]=xyMax[0]-1;
             globalCoords[0]++;
             globalCoords[1]++;
             getNeighbors();
@@ -50,7 +52,7 @@ public class DynamicCamera {
             globalCoords[1]--;
             getNeighbors();
         }else{
-            sectorCoords[1]=399;
+            sectorCoords[1]=xyMax[1]-1;
             globalCoords[0]--;
             globalCoords[1]++;
             getNeighbors();
@@ -69,18 +71,18 @@ public class DynamicCamera {
             }
         }
         
-        System.out.println(Arrays.toString(sectors));
+        //System.out.println(Arrays.toString(sectors));
     }
     
     public void render(){
-        sectors[0].render(sectorCoords[0]-1600,sectorCoords[1]);
-        sectors[1].render(sectorCoords[0]-800,sectorCoords[1]+400);
-        sectors[2].render(sectorCoords[0],sectorCoords[1]+800);
-        sectors[3].render(sectorCoords[0]-800,sectorCoords[1]-400);
+        sectors[0].render(sectorCoords[0]-sectorData[2],sectorCoords[1]);
+        sectors[1].render(sectorCoords[0]-sectorData[2]/2,sectorCoords[1]+sectorData[2]/4);
+        sectors[2].render(sectorCoords[0],sectorCoords[1]+sectorData[2]/2);
+        sectors[3].render(sectorCoords[0]-sectorData[2]/2,sectorCoords[1]-sectorData[2]/4);
         sectors[4].render(sectorCoords[0],sectorCoords[1]);
-        sectors[5].render(sectorCoords[0]+800,sectorCoords[1]+400);
-        sectors[6].render(sectorCoords[0],sectorCoords[1]-800);
-        sectors[7].render(sectorCoords[0]+800,sectorCoords[1]-400);
-        sectors[8].render(sectorCoords[0]+1600,sectorCoords[1]);
+        sectors[5].render(sectorCoords[0]+sectorData[2]/2,sectorCoords[1]+sectorData[2]/4);
+        sectors[6].render(sectorCoords[0],sectorCoords[1]-sectorData[2]/2);
+        sectors[7].render(sectorCoords[0]+sectorData[2]/2,sectorCoords[1]-sectorData[2]/4);
+        sectors[8].render(sectorCoords[0]+sectorData[2],sectorCoords[1]);
     }
 }

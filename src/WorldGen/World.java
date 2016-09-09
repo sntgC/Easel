@@ -15,15 +15,21 @@ import java.util.TreeMap;
 public class World {
     //Colection of sectors
     private Map<String, Sector> reference;
-    public World(int tileWidth){
+    private int[] sectorData;
+    public World(int tileWidth, int sectorWidth){
         reference=new TreeMap<String, Sector>();
-        reference.put("0,0", new Sector(10, "0,0", tileWidth));
+        sectorData=new int[] {tileWidth, sectorWidth, tileWidth*sectorWidth};
+        reference.put("0,0", new Sector(sectorWidth, "0,0", tileWidth));
+    }
+    
+    public int[] getSectorData(){
+        return sectorData;
     }
     
     public Sector requestSector(String id){
         Sector ret;
         if(reference.get(id)==null){
-            ret=new Sector(10,id,160/*Change this to custom tile width*/); 
+            ret=new Sector(sectorData[1],id,sectorData[0]/*Change this to custom tile width*/); 
             reference.put(id,ret);
         }else
             ret=reference.get(id);
