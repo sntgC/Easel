@@ -15,10 +15,10 @@ import java.awt.Polygon;
  */
 public class Tile {
     private Color c;
-    private long[] drawData;
+    public int[] drawData;
     Point[] sectorCoordinates;
     public Tile(int x,int y,int isoWidth,Color c){
-        drawData=new long[] {x,y,isoWidth};
+        drawData=new int[] {x,y,isoWidth};
         this.c=c;
     }
     
