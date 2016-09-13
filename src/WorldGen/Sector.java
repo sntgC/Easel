@@ -52,12 +52,16 @@ public class Sector {
         
         for(int r = 0; r < tiles.length; r++){
             for(int c = 0; c < tiles[r].length; c++){
+                
+                
+                
+                
                 tiles[r][c] = new Tile(rIndex, cIndex, tileWidth, new Color((int)(255 * perlinNoise[r][c]), (int)(255 * perlinNoise[r][c]), (int)(255 * perlinNoise[r][c])));
                 rIndex+= tileWidth / 2;
-                cIndex+= tileWidth / 4;
+                cIndex-= tileWidth / 4;
             }
             rIndex -= tileWidth/2 * (tiles.length-1);
-            cIndex -= tileWidth/4 * (tiles.length+1);
+            cIndex += tileWidth/4 * (tiles.length+1);
         }
     }
     
@@ -78,13 +82,13 @@ public class Sector {
         for (int i = 0; i < width; i++) {
             //calculate the horizontal sampling indices
             int sample_i0 = (i / samplePeriod) * samplePeriod;
-            int sample_i1 = (sample_i0 + samplePeriod);// % width; //wrap around
+            int sample_i1 = (sample_i0 + samplePeriod);
             double horizontal_blend = (i - sample_i0) * sampleFrequency;
 
             for (int j = 0; j < height; j++) {
                 //calculate the vertical sampling indices
                 int sample_j0 = (j / samplePeriod) * samplePeriod;
-                int sample_j1 = (sample_j0 + samplePeriod);// % height; //wrap around
+                int sample_j1 = (sample_j0 + samplePeriod);
                 double vertical_blend = (j - sample_j0) * sampleFrequency;
 
                 //blend the top two corners
