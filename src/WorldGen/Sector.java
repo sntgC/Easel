@@ -16,14 +16,15 @@ public class Sector {
     private Tile[][] tiles;
     private String id;
     private String[] neighbors;
-    
     boolean filled;
+    int tileWidth;
     public double[][] baseNoiseLayer;
     
     public Sector(int sides, String id, int width){
         tiles=new Tile[sides][sides];
         this.id=id;
         filled = false;
+        tileWidth = width;
         
         baseNoiseLayer = new double[sides + 1][sides + 1];
         for(int x = 0; x < sides; x++){
@@ -37,7 +38,6 @@ public class Sector {
     public void fill(double[][] adjacentEdges){     //a double[][] of 3 double[]s, in order of: sector to the right, below,and bottom right(bottom right one has a length of only 1)
         filled = true;
         
-        int tileWidth = 32;
         int xIndex = -800 + tileWidth/2;
         int yIndex = 0;
         
@@ -58,7 +58,7 @@ public class Sector {
                 Color col;
                 
                 if(perlinNoise[x][y] < waterLevel){
-                    col = new Color(0, 0, 50+(int)(perlinNoise[x][y] * 200));
+                    col = new Color(0, 0, (int)(perlinNoise[x][y] * 250));
                 }
                 else/* if(baseNoiseLayer[x][y] >= waterLevel)*/{
                     col = new Color(CreateRedBlueValue(waterLevel, perlinNoise[x][y]), (int)((perlinNoise[x][y] - waterLevel) * (1 / (1 - waterLevel)) * 200), CreateRedBlueValue(waterLevel, perlinNoise[x][y]));
@@ -71,12 +71,26 @@ public class Sector {
             xIndex -= tileWidth/2 * (tiles.length-1);
             yIndex -= tileWidth/4 * (tiles.length+1);
         }
+        
+        minimizeBaseNoiseLayer();
+    }
+    
+    private void minimizeBaseNoiseLayer(){
+        double[][] newBase = new double[baseNoiseLayer.length][baseNoiseLayer[0].length];
+        
+        newBase[0] = baseNoiseLayer[0];
+        
+        for(int i = 1; i < baseNoiseLayer[0].length; i++){
+            newBase[i][0] = baseNoiseLayer[i][0];
+        }
+        
+        baseNoiseLayer = newBase;
     }
     
     private int CreateRedBlueValue(double waterLevel, double inVal){
         
         int useVal = (int)((inVal - waterLevel) * (inVal - waterLevel) * (1 / (1 - waterLevel * waterLevel)) * 750);
-        int greenVal = 2500 /*(int)((inVal - waterLevel) * (1 / (1 - waterLevel)) * 100) + 100*/;
+        int greenVal = (int)((inVal - waterLevel) * (1 / (1 - waterLevel)) * 200);
         
         return Math.min(useVal, greenVal);
     }
