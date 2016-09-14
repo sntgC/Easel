@@ -38,7 +38,7 @@ public class Sector {
     public void fill(double[][] adjacentEdges){     //a double[][] of 3 double[]s, in order of: sector to the right, below,and bottom right(bottom right one has a length of only 1)
         filled = true;
         
-        int xIndex = -800 + tileWidth/2;
+        int xIndex = -(tiles.length*tileWidth)/2 + tileWidth/2;
         int yIndex = 0;
         
         baseNoiseLayer[tiles.length] = adjacentEdges[0];
