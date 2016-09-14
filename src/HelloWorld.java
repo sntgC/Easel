@@ -1,5 +1,6 @@
 
 import Camera.DynamicCamera;
+import Input.KeyboardHandler;
 import WorldGen.World;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
@@ -14,6 +15,8 @@ public class HelloWorld {
 
     // The window handle
     private long window;
+    
+    private GLFWKeyCallback keyCallback;
 
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -62,7 +65,7 @@ public class HelloWorld {
                 glfwSetWindowShouldClose(window, true); // We will detect this in our rendering loop
             }
         });
-
+        glfwSetKeyCallback(window, keyCallback = new KeyboardHandler());   
         // Get the resolution of the primary monitor
         GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         // Center our window
@@ -110,8 +113,15 @@ public class HelloWorld {
     }
     
     private void update(){
-        
-        camera.moveCamera(-4, -4);
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT))
+            camera.moveCamera(10, 0);
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_RIGHT))
+            camera.moveCamera(-10, 0);
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_UP))
+            camera.moveCamera(0, -10);
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_DOWN))
+            camera.moveCamera(0, 10);
+        //camera.moveCamera(-4, -4);
     }
 
     public static void main(String[] args) {
