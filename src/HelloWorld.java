@@ -6,15 +6,20 @@ import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
+
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+
 public class HelloWorld {
 
     // The window handle
     private long window;
+    
+    int fps;
+    long lastMilliseconds;
     
     private GLFWKeyCallback keyCallback;
 
@@ -44,6 +49,9 @@ public class HelloWorld {
         if (!glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
+        
+        // Setup variables for use in fps calcualtion
+        lastMilliseconds = getTime();
 
         // Configure our window
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
@@ -113,6 +121,9 @@ public class HelloWorld {
     }
     
     private void update(){
+        
+        updateFPS();
+        
         if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT))
             camera.moveCamera(10, 0);
         if(KeyboardHandler.isKeyDown(GLFW_KEY_RIGHT))
@@ -122,6 +133,20 @@ public class HelloWorld {
         if(KeyboardHandler.isKeyDown(GLFW_KEY_DOWN))
             camera.moveCamera(0, 10);
         //camera.moveCamera(-4, -4);
+    }
+    
+    public void updateFPS() {
+        if (getTime() - lastMilliseconds > 1000) {
+            //Display.setTitle("FPS: " + fps);
+            System.out.println(fps);
+            fps = 0;
+            lastMilliseconds += 1000;
+        }
+        fps++;
+    }
+    
+    public long getTime() {
+        return System.nanoTime() / 1000000;
     }
 
     public static void main(String[] args) {
