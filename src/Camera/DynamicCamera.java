@@ -35,31 +35,32 @@ public class DynamicCamera {
     }
     
     public void moveCamera(int xShift, int yShift){
-        if(sectorCoords[0]+xShift<xyMax[0]&&sectorCoords[0]+xShift>(-xyMax[0]))
-            sectorCoords[0]+=xShift;
-        else if(sectorCoords[0]+xShift>=xyMax[0]){
-            sectorCoords[0]=-xyMax[0]+1;
-            globalCoords[0]--;
-            globalCoords[1]--;
+        int newX=sectorCoords[0]+xShift;
+        int newY=sectorCoords[1]+yShift;
+        int absSlope=Math.abs(newX)/2;
+        if(newY>-absSlope+xyMax[1]){
+            sectorCoords[1]=-(xyMax[1]-newY);
+            if(newX<0){
+                sectorCoords[0]=xyMax[0]+newX;
+                globalCoords[0]++;
+            }else{
+                sectorCoords[0]=-(xyMax[0]-newX);
+                globalCoords[1]--;
+            }
+            getNeighbors();
+        }else if(newY<absSlope-xyMax[1]){
+            sectorCoords[1]=xyMax[1]+newY;
+            if(newX<0){
+                sectorCoords[0]=xyMax[0]+newX;
+                globalCoords[1]++;
+            }else{
+                sectorCoords[0]=-(xyMax[0]-newX);
+                globalCoords[0]--;
+            }
             getNeighbors();
         }else{
-            sectorCoords[0]=xyMax[0]-1;
-            globalCoords[0]++;
-            globalCoords[1]++;
-            getNeighbors();
-        }
-        if(sectorCoords[1]+yShift<xyMax[1]&&sectorCoords[1]+yShift>(-xyMax[1]))
-            sectorCoords[1]+=yShift;
-        else if(sectorCoords[1]+yShift>=xyMax[1]){
-            sectorCoords[1]=-xyMax[1]+1;
-            globalCoords[0]++;
-            globalCoords[1]--;
-            getNeighbors();
-        }else{
-            sectorCoords[1]=xyMax[1]-1;
-            globalCoords[0]--;
-            globalCoords[1]++;
-            getNeighbors();
+            sectorCoords[0]=newX;
+            sectorCoords[1]=newY;
         }
     }
     
@@ -82,7 +83,7 @@ public class DynamicCamera {
             int tempX = x - (heldSectorsWidth / 2);
             for(int y= 0; y < heldSectorsWidth; y++){
                 int tempY = y - (heldSectorsWidth / 2);
-                //if(tempX != 0 || tempY != 0)  //dont draw center tile (for testing)
+                if(tempX != 0 || tempY != 0)  //dont draw center tile (for testing)
                 sectors[x][y].render(sectorCoords[0] + (tempX + tempY) * (sectorData[2] / 2), sectorCoords[1] + (tempY - tempX) * (sectorData[2] / 4));
             }
         }
