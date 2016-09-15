@@ -22,7 +22,7 @@ public class DynamicCamera {
     private int[] xyMax;
     private int[] sectorData;
     
-    private int heldSectorsWidth = 5;
+    private int heldSectorsWidth = 3;
     
     public DynamicCamera(World map){
         sectorCoords=new int[] {0,0};
