@@ -22,7 +22,7 @@ public class DynamicCamera {
     private int[] xyMax;
     private int[] sectorData;
     
-    private int heldSectorsWidth = 3;
+    private int heldSectorsWidth = 5;
     
     public DynamicCamera(World map){
         sectorCoords=new int[] {0,0};
@@ -76,30 +76,19 @@ public class DynamicCamera {
         
     }
     
-    public void render(){
-        
-        /*
-        sectors[0].render(sectorCoords[0]-sectorData[2],sectorCoords[1]);                     [0][0]  //top-left      
-        sectors[1].render(sectorCoords[0]-sectorData[2]/2,sectorCoords[1]+sectorData[2]/4);   [0][1]  //left
-        sectors[2].render(sectorCoords[0],sectorCoords[1]+sectorData[2]/2);                   [0][2]  //bottom-left
-        sectors[3].render(sectorCoords[0]-sectorData[2]/2,sectorCoords[1]-sectorData[2]/4);   [1][0]  //top
-        sectors[4].render(sectorCoords[0],sectorCoords[1]);                                   [1][1]  //center
-        sectors[5].render(sectorCoords[0]+sectorData[2]/2,sectorCoords[1]+sectorData[2]/4);   [1][2]  //bottom
-        sectors[6].render(sectorCoords[0],sectorCoords[1]-sectorData[2]/2);                   [2][0]  //top-right
-        sectors[7].render(sectorCoords[0]+sectorData[2]/2,sectorCoords[1]-sectorData[2]/4);   [2][1]  //right
-        sectors[8].render(sectorCoords[0]+sectorData[2],sectorCoords[1]);                     [2][2]  //bottom-right
-        */
+    public void render(int fps){
         
         for(int x= 0; x < heldSectorsWidth; x++){
             int tempX = x - (heldSectorsWidth / 2);
             for(int y= 0; y < heldSectorsWidth; y++){
                 int tempY = y - (heldSectorsWidth / 2);
-                    sectors[x][y].render(sectorCoords[0] + (tempX + tempY) * (sectorData[2] / 2), sectorCoords[1] + (tempY - tempX) * (sectorData[2] / 4));
+                sectors[x][y].render(sectorCoords[0] + (tempX + tempY) * (sectorData[2] / 2), sectorCoords[1] + (tempY - tempX) * (sectorData[2] / 4));
             }
         }
         
-        
         Color c = new Color(250, 0, 0);
         Render.Polygons.drawIsometricTile(0, 0, 50, c);
+        
+        Render.Polygons.drawFPSBar(fps);
     }
 }

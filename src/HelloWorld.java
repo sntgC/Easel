@@ -20,6 +20,7 @@ public class HelloWorld {
     private long window;
     
     int fps;
+    int fpsSum;
     long lastMilliseconds;
     
     private GLFWKeyCallback keyCallback;
@@ -107,14 +108,14 @@ public class HelloWorld {
         glClearColor(0.2f, 0.3f, 0.7f, 0.0f);
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
-        World myWorld=new World(32, 128);
+        World myWorld=new World(16, 128);
         camera=new DynamicCamera(myWorld);
         body=new DynamicBody("0,0",0,0);
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
             // Top & Red
             update();
-            camera.render();
+            camera.render(fps);
             body.render(0,0);
             // Poll for window events. The key callback above will only be
             
@@ -126,7 +127,7 @@ public class HelloWorld {
     
     private void update(){
         
-        //updateFPS();
+        updateFPS();
         
         if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT))
             camera.moveCamera(10, 0);
@@ -142,11 +143,12 @@ public class HelloWorld {
     public void updateFPS() {
         if (getTime() - lastMilliseconds > 1000) {
             //Display.setTitle("FPS: " + fps);
+            fps = fpsSum;
             System.out.println(fps);
-            fps = 0;
+            fpsSum = 0;
             lastMilliseconds += 1000;
         }
-        fps++;
+        fpsSum++;
     }
     
     public long getTime() {

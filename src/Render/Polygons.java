@@ -26,7 +26,28 @@ public class Polygons {
         glEnd();
     }
     
-    //public static void drawPolygon
+    public static void drawFPSBar(int fps){
+        
+        int fpsMax = 100;
+        float changePoint = (float)fps / (float)fpsMax * 0.15f - 0.95f;
+        
+        glBegin(GL11.GL_POLYGON);
+                GL11.glColor3f(255, 0, 0);
+                glVertex2f(-0.95f, 0.95f);         //order: start top-left, go clockwise
+                glVertex2f(changePoint, 0.95f);
+                glVertex2f(changePoint, 0.9f);
+                glVertex2f(-0.95f, 0.9f);
+        glEnd();
+        
+        glBegin(GL11.GL_POLYGON);
+                GL11.glColor3f(255, 255, 255);
+                glVertex2f(changePoint, 0.95f);         //order: start top-left, go clockwise
+                glVertex2f(-0.8f, 0.95f);
+                glVertex2f(-0.8f, 0.9f);
+                glVertex2f(changePoint, 0.9f);
+        glEnd();
+        
+    }
     
     public static void drawIsometricTile(long x, long y, long width, Color c){
         float[] rgb=new float[] {c.getRed()/255.0f,c.getGreen()/255.0f, c.getBlue()/255.0f};
@@ -34,12 +55,15 @@ public class Polygons {
         float h=600.0f;
         float[] xCoords=new float[] {(x/w),(x+width/2)/w,(x/w),((x-width/2)/w)};
         float[] yCoords=new float[] {(y+width/4)/h,(y)/h,(y-width/4)/h,(y)/h};
-        glBegin(GL11.GL_POLYGON);
-                GL11.glColor3f(rgb[0],rgb[1],rgb[2]);
+        if(yCoords[0] > -1f && yCoords[2] < 1f && xCoords[1] < 1f && xCoords[1] > -1f)
+        {
+            glBegin(GL11.GL_POLYGON);
+                GL11.glColor3f(rgb[0], rgb[1], rgb[2]);
                 glVertex2f(xCoords[0], yCoords[0]);
                 glVertex2f(xCoords[1], yCoords[1]);
                 glVertex2f(xCoords[2], yCoords[2]);
                 glVertex2f(xCoords[3], yCoords[3]);
-        glEnd();
+            glEnd();
+        }
     }
 }

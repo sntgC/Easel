@@ -65,7 +65,7 @@ public class Sector {
                         col = new Color(194, 178, 128);
                     }
                     else{
-                        col = new Color(CreateRedBlueValue(waterLevel, perlinNoise[x][y]), (int)((perlinNoise[x][y] - waterLevel) * (1 / (1 - waterLevel)) * 200 + 50), CreateRedBlueValue(waterLevel, perlinNoise[x][y]));
+                        col = new Color(0, (int)((perlinNoise[x][y] - waterLevel) * (1 / (1 - waterLevel)) * 200 + 50), 0);
                     }
                 }
                 
@@ -90,16 +90,6 @@ public class Sector {
         }
         
         baseNoiseLayer = newBase;
-    }
-    
-    private int CreateRedBlueValue(double waterLevel, double inVal){
-        
-        //int useVal = (int)((inVal - waterLevel) * (inVal - waterLevel) * (1 / (1 - waterLevel * waterLevel)) * 750);
-        //int greenVal = (int)((inVal - waterLevel) * (1 / (1 - waterLevel)) * 200);
-        
-        //return Math.min(useVal, greenVal);
-        
-        return 0;
     }
     
     private double interpolate(double x0, double x1, double alpha){
@@ -192,10 +182,11 @@ public class Sector {
         return ret;
     }
     
-    public void render(int xShift, int yShift){
-        for(Tile[] t:tiles){
-            for(Tile mt:t){
-                mt.render(xShift,yShift);
+    public void render(int xShift, int yShift) {
+
+        for (Tile[] t : tiles) {
+            for (Tile mt : t) {
+                mt.render(xShift, yShift);
             }
         }
     }
