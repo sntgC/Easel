@@ -25,6 +25,9 @@ public class Polygons {
                 glVertex2f(0.100f, (float)(Math.random()));
         glEnd();
     }
+    
+    //public static void drawPolygon
+    
     public static void drawIsometricTile(long x, long y, long width, Color c){
         float[] rgb=new float[] {c.getRed()/255.0f,c.getGreen()/255.0f, c.getBlue()/255.0f};
         float w=800.0f;

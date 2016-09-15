@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,6 +7,7 @@ package Camera;
 
 import WorldGen.Sector;
 import WorldGen.World;
+import java.awt.Color;
 import java.util.Arrays;
 
 /**
@@ -14,16 +15,19 @@ import java.util.Arrays;
  * @author sntgc
  */
 public class DynamicCamera {
-    private int[] sectorCoords;
-    private long[] globalCoords;
-    private Sector[] sectors;
+    private int[] sectorCoords;         // cameras coords within the current sector
+    private long[] globalCoords;        // 
+    private Sector[][] sectors;
     private World world;
     private int[] xyMax;
     private int[] sectorData;
+    
+    private int heldSectorsWidth = 5;
+    
     public DynamicCamera(World map){
         sectorCoords=new int[] {0,0};
         globalCoords=new long[] {0,0};
-        sectors=new Sector[9];
+        sectors=new Sector[heldSectorsWidth][heldSectorsWidth];
         world=map;
         sectorData=map.getSectorData();
         xyMax=new int[] {sectorData[2]/2,sectorData[2]/4};
@@ -60,29 +64,42 @@ public class DynamicCamera {
     }
     
     private void getNeighbors(){
-        int index=0;
-        for(int x=-1;x<=1;x++){
-            for(int y=-1;y<=1;y++){
-                //if(Math.abs(x)+Math.abs(y)<=1){
-                    long xCoord=globalCoords[0]+x;
-                    long yCoord=globalCoords[1]+y;
-                    sectors[index++]=world.requestSector(xCoord+","+yCoord);
-                //}
+        //int index=0;
+        for(int x= 0; x < heldSectorsWidth; x++){
+            for(int y= 0; y < heldSectorsWidth; y++){
+                
+                long xCoord=globalCoords[0] + (x - (heldSectorsWidth / 2));
+                long yCoord=globalCoords[1] + (y - (heldSectorsWidth / 2));
+                sectors[x][y] = world.requestSector(xCoord+","+yCoord);
             }
         }
         
-        //System.out.println(Arrays.toString(sectors));
     }
     
     public void render(){
-        sectors[0].render(sectorCoords[0]-sectorData[2],sectorCoords[1]);
-        sectors[1].render(sectorCoords[0]-sectorData[2]/2,sectorCoords[1]+sectorData[2]/4);
-        sectors[2].render(sectorCoords[0],sectorCoords[1]+sectorData[2]/2);
-        sectors[3].render(sectorCoords[0]-sectorData[2]/2,sectorCoords[1]-sectorData[2]/4);
-        sectors[4].render(sectorCoords[0],sectorCoords[1]);
-        sectors[5].render(sectorCoords[0]+sectorData[2]/2,sectorCoords[1]+sectorData[2]/4);
-        sectors[6].render(sectorCoords[0],sectorCoords[1]-sectorData[2]/2);
-        sectors[7].render(sectorCoords[0]+sectorData[2]/2,sectorCoords[1]-sectorData[2]/4);
-        sectors[8].render(sectorCoords[0]+sectorData[2],sectorCoords[1]);
+        
+        /*
+        sectors[0].render(sectorCoords[0]-sectorData[2],sectorCoords[1]);                     [0][0]  //top-left      
+        sectors[1].render(sectorCoords[0]-sectorData[2]/2,sectorCoords[1]+sectorData[2]/4);   [0][1]  //left
+        sectors[2].render(sectorCoords[0],sectorCoords[1]+sectorData[2]/2);                   [0][2]  //bottom-left
+        sectors[3].render(sectorCoords[0]-sectorData[2]/2,sectorCoords[1]-sectorData[2]/4);   [1][0]  //top
+        sectors[4].render(sectorCoords[0],sectorCoords[1]);                                   [1][1]  //center
+        sectors[5].render(sectorCoords[0]+sectorData[2]/2,sectorCoords[1]+sectorData[2]/4);   [1][2]  //bottom
+        sectors[6].render(sectorCoords[0],sectorCoords[1]-sectorData[2]/2);                   [2][0]  //top-right
+        sectors[7].render(sectorCoords[0]+sectorData[2]/2,sectorCoords[1]-sectorData[2]/4);   [2][1]  //right
+        sectors[8].render(sectorCoords[0]+sectorData[2],sectorCoords[1]);                     [2][2]  //bottom-right
+        */
+        
+        for(int x= 0; x < heldSectorsWidth; x++){
+            int tempX = x - (heldSectorsWidth / 2);
+            for(int y= 0; y < heldSectorsWidth; y++){
+                int tempY = y - (heldSectorsWidth / 2);
+                    sectors[x][y].render(sectorCoords[0] + (tempX + tempY) * (sectorData[2] / 2), sectorCoords[1] + (tempY - tempX) * (sectorData[2] / 4));
+            }
+        }
+        
+        
+        Color c = new Color(250, 0, 0);
+        Render.Polygons.drawIsometricTile(0, 0, 50, c);
     }
 }
