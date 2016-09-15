@@ -144,7 +144,7 @@ public class HelloWorld {
         if (getTime() - lastMilliseconds > 1000) {
             //Display.setTitle("FPS: " + fps);
             fps = fpsSum;
-            System.out.println(fps);
+            //System.out.println(fps);
             fpsSum = 0;
             lastMilliseconds += 1000;
         }

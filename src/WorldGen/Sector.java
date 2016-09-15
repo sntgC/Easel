@@ -32,7 +32,6 @@ public class Sector {
                 baseNoiseLayer[x][y] = Math.random();
             }
         }
-        
     }
     
     public void fill(double[][] adjacentEdges){     //a double[][] of 3 double[]s, in order of: sector to the right, below,and bottom right(bottom right one has a length of only 1)
@@ -48,7 +47,6 @@ public class Sector {
         baseNoiseLayer[tiles.length][tiles.length] = adjacentEdges[2][0];
         
         double[][] perlinNoise = generatePerlinNoise(baseNoiseLayer, 7);
-        
         
         for(int x = 0; x < tiles.length; x++){
             for(int y = 0; y < tiles[x].length; y++){

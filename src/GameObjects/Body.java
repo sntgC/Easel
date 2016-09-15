@@ -33,6 +33,6 @@ public abstract class Body implements Renderable, Tangible{
 
     @Override
     public void render(int xShift, int yShift) {
-        Render.Polygons.drawIsometricTile(sectorCoords[0]+xShift, sectorCoords[1]+yShift, 64, Color.red);
+        Render.Polygons.drawIsometricTile(sectorCoords[0]+xShift, sectorCoords[1]+yShift, 64, Color.blue);
     }
 }

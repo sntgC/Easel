@@ -55,7 +55,7 @@ public class Polygons {
         float h=600.0f;
         float[] xCoords=new float[] {(x/w),(x+width/2)/w,(x/w),((x-width/2)/w)};
         float[] yCoords=new float[] {(y+width/4)/h,(y)/h,(y-width/4)/h,(y)/h};
-        if(yCoords[0] > -1f && yCoords[2] < 1f && xCoords[1] < 1f && xCoords[1] > -1f)
+        if(yCoords[0] > -1f && yCoords[2] < 1f && xCoords[3] < 1f && xCoords[1] > -1f)
         {
             glBegin(GL11.GL_POLYGON);
                 GL11.glColor3f(rgb[0], rgb[1], rgb[2]);

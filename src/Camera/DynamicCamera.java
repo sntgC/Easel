@@ -16,13 +16,13 @@ import java.util.Arrays;
  */
 public class DynamicCamera {
     private int[] sectorCoords;         // cameras coords within the current sector
-    private long[] globalCoords;        // 
+    private long[] globalCoords;        
     private Sector[][] sectors;
     private World world;
     private int[] xyMax;
     private int[] sectorData;
     
-    private int heldSectorsWidth = 5;
+    private int heldSectorsWidth = 7;
     
     public DynamicCamera(World map){
         sectorCoords=new int[] {0,0};
@@ -82,12 +82,13 @@ public class DynamicCamera {
             int tempX = x - (heldSectorsWidth / 2);
             for(int y= 0; y < heldSectorsWidth; y++){
                 int tempY = y - (heldSectorsWidth / 2);
+                //if(tempX != 0 || tempY != 0)  //dont draw center tile (for testing)
                 sectors[x][y].render(sectorCoords[0] + (tempX + tempY) * (sectorData[2] / 2), sectorCoords[1] + (tempY - tempX) * (sectorData[2] / 4));
             }
         }
         
-        Color c = new Color(250, 0, 0);
-        Render.Polygons.drawIsometricTile(0, 0, 50, c);
+        //Color c = new Color(250, 0, 0);
+        //Render.Polygons.drawIsometricTile(0, 0, 50, c);
         
         Render.Polygons.drawFPSBar(fps);
     }
