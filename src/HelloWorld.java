@@ -1,5 +1,6 @@
 
 import Camera.DynamicCamera;
+import GameObjects.DynamicBody;
 import Input.KeyboardHandler;
 import WorldGen.World;
 import org.lwjgl.*;
@@ -93,6 +94,7 @@ public class HelloWorld {
     }
     double x=0;
     DynamicCamera camera;
+    DynamicBody body;
     private void loop() {
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
@@ -107,11 +109,13 @@ public class HelloWorld {
         // the window or has pressed the ESCAPE key.
         World myWorld=new World(32, 128);
         camera=new DynamicCamera(myWorld);
+        body=new DynamicBody("0,0",0,0);
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
             // Top & Red
             update();
             camera.render();
+            body.render(0,0);
             // Poll for window events. The key callback above will only be
             
             glfwSwapBuffers(window); // swap the color buffers
@@ -122,7 +126,7 @@ public class HelloWorld {
     
     private void update(){
         
-        updateFPS();
+        //updateFPS();
         
         if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT))
             camera.moveCamera(10, 0);
