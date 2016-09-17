@@ -5,6 +5,7 @@
  */
 package GameObjects;
 
+import WorldGen.World;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
@@ -18,6 +19,15 @@ public abstract class Body implements Renderable, Tangible{
     String globalCoords;
     int[] sectorCoords;
     int[] hitBox;
+    World myMap;
+    
+    public Body(World w){
+        myMap=w;
+        globalCoords="";
+        sectorCoords=new int[2];
+        hitBox=new int[2];
+    }
+    
     @Override
     public void setHitbox(int width, int length) {
         hitBox=new int[] {length, width};
@@ -25,7 +35,11 @@ public abstract class Body implements Renderable, Tangible{
 
     @Override
     public void setCoords(String globalCoord, int[] sectorCoords) {
+        if(!globalCoords.equals("")){
+            myMap.requestSector(globalCoord).removeBody(this);
+        }
         this.globalCoords=globalCoord;
+        myMap.requestSector(globalCoord).addBody(this);
         this.sectorCoords=sectorCoords.clone();
     }
     

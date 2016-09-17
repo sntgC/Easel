@@ -5,7 +5,9 @@
  */
 package WorldGen;
 
+import GameObjects.Body;
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  *
@@ -18,6 +20,7 @@ public class Sector {
     private String[] neighbors;
     boolean filled;
     int tileWidth;
+    private ArrayList<Body> bodies;
     public double[][] baseNoiseLayer;
     
     public Sector(int sides, String id, int width){
@@ -25,7 +28,7 @@ public class Sector {
         this.id=id;
         filled = false;
         tileWidth = width;
-        
+        bodies=new ArrayList();
         baseNoiseLayer = new double[sides + 1][sides + 1];
         for(int x = 0; x < sides; x++){
             for(int y = 0; y < sides; y++){
@@ -172,6 +175,15 @@ public class Sector {
         return (Integer.parseInt(nums[0])+Integer.parseInt(nums[1]))%2==0;
     }
     
+    public boolean addBody(Body b){
+        bodies.add(b);
+        return false;
+    }
+    
+    public boolean removeBody(Body b){
+        return bodies.remove(b);
+    }
+    
     public static int[] lineCross(int ba,int bb){
         int[] ret= new int[2];
         //returns an array in the for of [x,y]
@@ -187,6 +199,8 @@ public class Sector {
                 mt.render(xShift, yShift);
             }
         }
+        for(Body b:bodies)
+            b.render(xShift, yShift);
     }
     
     @Override

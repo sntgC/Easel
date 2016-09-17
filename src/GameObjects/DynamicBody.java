@@ -5,6 +5,8 @@
  */
 package GameObjects;
 
+import WorldGen.World;
+
 /**
  *
  * @author sntgc
@@ -13,7 +15,8 @@ public class DynamicBody extends Body{
     private float velocity;
     private float acceleration;
     private float[] fSectorCoords;
-    public DynamicBody(String global, int sectorX, int sectorY){
+    public DynamicBody(String global, int sectorX, int sectorY, World w){
+        super(w);
         super.setCoords(global, new int[] {sectorX,sectorY});
     }
     public void move(String isoDirection){

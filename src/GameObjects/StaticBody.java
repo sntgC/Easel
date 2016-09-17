@@ -5,12 +5,15 @@
  */
 package GameObjects;
 
+import WorldGen.World;
+
 /**
  *
  * @author sntgc
  */
 public class StaticBody extends Body{
-    public StaticBody(String global, int sectorX, int sectorY){
+    public StaticBody(String global, int sectorX, int sectorY, World w){
+        super(w);
         super.setCoords(global, new int[] {sectorX,sectorY});
     }
     

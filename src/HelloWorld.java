@@ -110,13 +110,13 @@ public class HelloWorld {
         // the window or has pressed the ESCAPE key.
         World myWorld=new World(16, 128);
         camera=new DynamicCamera(myWorld);
-        body=new DynamicBody("0,0",0,0);
+        body=new DynamicBody("0,0",0,100, myWorld);
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
             // Top & Red
             update();
             camera.render(fps);
-            body.render(0,0);
+            //body.render(0,0);
             // Poll for window events. The key callback above will only be
             
             glfwSwapBuffers(window); // swap the color buffers

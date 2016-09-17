@@ -83,7 +83,7 @@ public class DynamicCamera {
             int tempX = x - (heldSectorsWidth / 2);
             for(int y= 0; y < heldSectorsWidth; y++){
                 int tempY = y - (heldSectorsWidth / 2);
-                if(tempX != 0 || tempY != 0)  //dont draw center tile (for testing)
+                //if(tempX != 0 || tempY != 0)  //dont draw center tile (for testing)
                 sectors[x][y].render(sectorCoords[0] + (tempX + tempY) * (sectorData[2] / 2), sectorCoords[1] + (tempY - tempX) * (sectorData[2] / 4));
             }
         }
