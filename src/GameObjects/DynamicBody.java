@@ -14,24 +14,60 @@ import WorldGen.World;
 public class DynamicBody extends Body{
     private float velocity;
     private float acceleration;
+    //Used for float math, not sure if im keeping this array though
     private float[] fSectorCoords;
+    private static final int[] xyMax=new int[] {512,256};
+    private long[] globalCoords;
     public DynamicBody(String global, int sectorX, int sectorY, World w){
         super(w);
+        fSectorCoords=new float[2];
+        velocity=8;
+        globalCoords=new long[2];
+        globalCoords[0]=Integer.parseInt(global.substring(0,global.indexOf(",")));
+        globalCoords[1]=Integer.parseInt(global.substring(global.indexOf(",")+1));
         super.setCoords(global, new int[] {sectorX,sectorY});
     }
     public void move(String isoDirection){
-        if(isoDirection.equals("UP")){
-            fSectorCoords[1]*=-velocity/2;
-            sectorCoords[1]=(int)fSectorCoords[1];
-        }else if(isoDirection.equals("DOWN")){
-            fSectorCoords[1]*=velocity/2;
-            sectorCoords[1]=(int)fSectorCoords[1];
-        }else if(isoDirection.equals("LEFT")){
-            fSectorCoords[0]*=velocity;
-            sectorCoords[0]=(int)fSectorCoords[1];
+        if(isoDirection.equals("DOWN")){
+            moveMath(0,(int)(velocity/2));
+        }else if(isoDirection.equals("UP")){
+            moveMath(0,(int)(-velocity/2));
         }else if(isoDirection.equals("RIGHT")){
-            fSectorCoords[0]*=-velocity;
-            sectorCoords[0]=(int)fSectorCoords[1];
+            moveMath((int)(-velocity/2),0);
+        }else if(isoDirection.equals("LEFT")){
+            moveMath((int)(velocity/2),0);
+        }
+    }
+    
+    private void moveMath(int xShift, int yShift){
+        int newX=sectorCoords[0]-xShift;
+        int newY=sectorCoords[1]-yShift;
+        int absSlope=Math.abs(newX)/2;
+        if(newY>-absSlope+xyMax[1]){
+            sectorCoords[1]=-(xyMax[1]-newY);
+            if(newX<0){
+                sectorCoords[0]=xyMax[0]+newX;
+                globalCoords[0]--;
+            }else{
+                sectorCoords[0]=-(xyMax[0]-newX);
+                globalCoords[1]++;
+            }
+            String global=globalCoords[0]+","+globalCoords[1];
+            super.setCoords(global, sectorCoords);
+        }else if(newY<absSlope-xyMax[1]){
+            sectorCoords[1]=xyMax[1]+newY;
+            if(newX<0){
+                sectorCoords[0]=xyMax[0]+newX;
+                globalCoords[1]--;
+            }else{
+                sectorCoords[0]=-(xyMax[0]-newX);
+                globalCoords[0]++;
+            }
+            String global=globalCoords[0]+","+globalCoords[1];
+            super.setCoords(global, sectorCoords);
+        }else{
+            sectorCoords[0]=newX;
+            sectorCoords[1]=newY;
         }
     }
     

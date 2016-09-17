@@ -108,7 +108,7 @@ public class HelloWorld {
         glClearColor(0.2f, 0.3f, 0.7f, 0.0f);
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
-        World myWorld=new World(16, 128);
+        World myWorld=new World(16, 64);
         camera=new DynamicCamera(myWorld);
         body=new DynamicBody("0,0",0,100, myWorld);
         while (!glfwWindowShouldClose(window)) {
@@ -128,7 +128,6 @@ public class HelloWorld {
     private void update(){
         
         updateFPS();
-        
         if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT))
             camera.moveCamera(10, 0);
         if(KeyboardHandler.isKeyDown(GLFW_KEY_RIGHT))
@@ -137,7 +136,6 @@ public class HelloWorld {
             camera.moveCamera(0, -10);
         if(KeyboardHandler.isKeyDown(GLFW_KEY_DOWN))
             camera.moveCamera(0, 10);
-        //camera.moveCamera(-4, -4);
     }
     
     public void updateFPS() {

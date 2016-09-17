@@ -8,6 +8,7 @@ package GameObjects;
 import WorldGen.World;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 /**
  *
@@ -36,7 +37,7 @@ public abstract class Body implements Renderable, Tangible{
     @Override
     public void setCoords(String globalCoord, int[] sectorCoords) {
         if(!globalCoords.equals("")){
-            myMap.requestSector(globalCoord).removeBody(this);
+            myMap.requestSector(globalCoords).removeBody(this);
         }
         this.globalCoords=globalCoord;
         myMap.requestSector(globalCoord).addBody(this);
@@ -48,5 +49,9 @@ public abstract class Body implements Renderable, Tangible{
     @Override
     public void render(int xShift, int yShift) {
         Render.Polygons.drawIsometricTile(sectorCoords[0]+xShift, sectorCoords[1]+yShift, 64, Color.blue);
+    }
+    
+    public String toString(){
+        return "BODY @"+globalCoords;
     }
 }

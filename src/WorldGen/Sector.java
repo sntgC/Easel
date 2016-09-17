@@ -176,12 +176,13 @@ public class Sector {
     }
     
     public boolean addBody(Body b){
-        bodies.add(b);
-        return false;
+        boolean ret= bodies.add(b);
+        return ret;
     }
     
     public boolean removeBody(Body b){
-        return bodies.remove(b);
+        boolean ret= bodies.remove(b);
+        return ret;
     }
     
     public static int[] lineCross(int ba,int bb){
